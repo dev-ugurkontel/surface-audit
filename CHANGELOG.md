@@ -7,6 +7,35 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.1] - 2026-04-20
+
+### Added
+
+- `Changelog` and `Funding` URLs under `[project.urls]` so the PyPI
+  project sidebar links to the release history and the GitHub
+  Sponsors page directly.
+
+### Changed
+
+- **CI toolchain** bumped to current stable versions:
+  `actions/checkout` v6.0.2, `actions/setup-python` v6.2.0,
+  `actions/upload-artifact` v7.0.1, `actions/download-artifact` v8.0.1,
+  `sigstore/gh-action-sigstore-python` v3.3.0.
+- **Pre-commit hooks** refreshed: `ruff` v0.15.11, `mypy` v1.20.1,
+  `bandit` 1.9.4, `gitleaks` v8.30.1, `pre-commit-hooks` v6.0.0.
+
+### Fixed
+
+- **Release workflow (publish)**: strip non-distribution files from
+  the artifact before the PyPI upload. The CycloneDX SBOM under
+  `dist/` was causing `twine` to reject the entire batch with
+  `InvalidDistribution: Unknown distribution format: 'sbom.cdx.json'`.
+- **Release workflow (idempotency)**: `publish-pypi` now uses
+  `skip-existing: true`, and the GitHub Release step reuses the
+  existing release via `gh release upload --clobber` when one is
+  already present. Re-triggering a release for the same tag no
+  longer requires manual cleanup.
+
 ## [1.0.0] - 2026-04-19
 
 Initial public release.
