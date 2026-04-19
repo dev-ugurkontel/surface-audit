@@ -51,6 +51,12 @@ jobs:
           name: dist
           path: dist/
 
+      - name: Keep only wheels and sdists for PyPI upload
+        # The build job ships both the Python distributions and the
+        # CycloneDX SBOM under dist/. PyPI only accepts .whl and .tar.gz;
+        # anything else makes twine reject the entire batch.
+        run: find dist/ -type f ! -name "*.whl" ! -name "*.tar.gz" -delete
+
       - name: Publish via Trusted Publishing (OIDC)
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
