@@ -1,0 +1,37 @@
+name: Feature request
+description: Propose a new check, renderer, or capability.
+labels: ["enhancement", "triage"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem statement
+      description: What pain or gap does this solve? Who benefits?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed solution
+      description: Describe the feature and how you'd expect to use it.
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: Have you tried workarounds or other approaches?
+  - type: dropdown
+    id: scope
+    attributes:
+      label: Scope category
+      options:
+        - New check plugin
+        - New report format
+        - CLI flag / UX
+        - Library API
+        - Performance
+        - Documentation
+        - Other
+    validations:
+      required: true
