@@ -94,6 +94,8 @@ Homepage = "https://github.com/dev-ugurkontel/surface-audit"
 Repository = "https://github.com/dev-ugurkontel/surface-audit"
 Issues = "https://github.com/dev-ugurkontel/surface-audit/issues"
 Documentation = "https://github.com/dev-ugurkontel/surface-audit/tree/main/docs"
+Changelog = "https://github.com/dev-ugurkontel/surface-audit/blob/main/CHANGELOG.md"
+Funding = "https://github.com/sponsors/dev-ugurkontel"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/surface_audit"]
