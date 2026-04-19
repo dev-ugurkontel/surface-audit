@@ -61,7 +61,7 @@ jobs:
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
           packages-dir: dist/
-          skip-existing: false
+          skip-existing: true
           attestations: true
 
   sign-and-release:
@@ -83,12 +83,16 @@ jobs:
             ./dist/*.whl
             ./dist/*.tar.gz
 
-      - name: Create GitHub Release
+      - name: Create or update GitHub Release
         env:
           GH_TOKEN: ${{ github.token }}
           TAG: ${{ github.ref_name }}
         run: |
-          gh release create "$TAG" \
-            --title "$TAG" \
-            --notes "See CHANGELOG.md for details." \
-            ./dist/*
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            gh release upload "$TAG" ./dist/* --clobber
+          else
+            gh release create "$TAG" \
+              --title "$TAG" \
+              --notes "See CHANGELOG.md for details." \
+              ./dist/*
+          fi
