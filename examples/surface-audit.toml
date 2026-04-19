@@ -1,0 +1,26 @@
+# Example configuration for surface-audit.
+#
+# Drop this file at the project root as `surface-audit.toml` or copy its
+# contents under `[tool.surface-audit]` in `pyproject.toml`.
+# Precedence: CLI flag > this file > built-in default.
+
+timeout = 10.0
+max_concurrency = 8
+verify_tls = true
+follow_redirects = true
+
+# Override the User-Agent (the default identifies surface-audit).
+# user_agent = "acme-security-bot/1.0"
+
+# Route through a local intercepting proxy (e.g. Burp Suite, mitmproxy).
+# proxy = "http://127.0.0.1:8080"
+
+# Retry policy for transient transport errors and retryable HTTP status codes.
+retry_attempts = 3
+retry_backoff = 0.25
+
+# Restrict which checks run. Omit to run everything registered.
+# enabled_checks = ["security-headers", "ssl-tls", "https-redirect"]
+
+# Or run everything except a noisy few.
+# disabled_checks = ["xss-reflection"]
