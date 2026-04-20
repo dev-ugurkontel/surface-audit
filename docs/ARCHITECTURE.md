@@ -18,6 +18,14 @@ larger tool.
 
 ## Layered view
 
+```mermaid
+flowchart TB
+    P["Presentation<br/>cli.py / mcp_server.py"] --> A["Application<br/>scanner.py / diff.py"]
+    A --> D["Domain<br/>models / exceptions / scope / checks.base"]
+    A --> I["Infrastructure<br/>client.py / reporting / config.py"]
+    P --> I
+```
+
 ```
 ┌──────────────────────────────────────────────────────────────┐
 │  presentation    (cli.py, mcp_server.py)                     │
