@@ -70,7 +70,29 @@ releases:
 docker run --rm ghcr.io/dev-ugurkontel/surface-audit:latest \
     scan https://preview.example.com --fail-on HIGH
 ```
+### When to use GHCR vs PyPI vs GitHub Action
 
+- **GHCR (Container Image)**  
+  Use when you want a reproducible, containerized scan without installing dependencies locally.
+
+- **PyPI (pip install)**  
+  Use when you prefer running `surface-audit` directly in your Python environment.
+
+- **GitHub Action**  
+  Use when integrating scans into CI/CD workflows for automated checks.
+
+
+### Release artifacts, SBOMs, and signatures
+
+- Release artifacts are available via GitHub releases.
+- SBOMs provide dependency transparency.
+- Signatures ensure integrity of published images and packages.
+
+
+### Related recipes
+
+For more usage patterns, see:
+[`docs/RECIPES.md`](docs/RECIPES.md)
 ## Security Regression Diff
 
 ```bash
