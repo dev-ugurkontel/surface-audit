@@ -2,6 +2,7 @@
 
 [![CI](https://github.com/dev-ugurkontel/surface-audit/actions/workflows/ci.yml/badge.svg)](https://github.com/dev-ugurkontel/surface-audit/actions/workflows/ci.yml)
 [![PyPI](https://img.shields.io/pypi/v/surface-audit.svg)](https://pypi.org/project/surface-audit/)
+[![Downloads](https://img.shields.io/pypi/dm/surface-audit.svg)](https://pypistats.org/packages/surface-audit)
 [![Python](https://img.shields.io/pypi/pyversions/surface-audit.svg)](https://pypi.org/project/surface-audit/)
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
 [![Checked with mypy](https://img.shields.io/badge/mypy-strict-blue)](https://mypy.readthedocs.io/)
@@ -33,10 +34,16 @@ rules).
 - **Multiple output formats** — rich console, JSON, HTML, Markdown
   (PR-ready), and [SARIF 2.1.0](https://sarifweb.azurewebsites.net/) for
   GitHub Code Scanning integration.
+- **MCP-ready** — optional `surface-audit[mcp]` install exposes the
+  scanner to Claude Desktop, Cursor, and other MCP clients behind an
+  explicit host allow-list.
 - **Configurable** — TOML config file (`surface-audit.toml` or
   `[tool.surface-audit]`) plus per-invocation CLI flags.
 - **CI-friendly** — `--fail-on HIGH` gates builds on severity; SARIF
   uploads integrate natively with GitHub Advanced Security.
+- **Supply-chain aware releases** — the release workflow uses PyPI
+  Trusted Publishing, signs artifacts with Sigstore, and emits a
+  CycloneDX SBOM.
 - **Typed, tested, safe** — `mypy --strict`, `ruff`, `bandit`, and a
   `pytest` suite with respx-mocked HTTP tests.
 
@@ -70,6 +77,9 @@ surface-audit scan https://example.com
 
 Detailed per-platform setup: [`docs/INSTALL.md`](docs/INSTALL.md).
 
+Download trends: [PyPI Stats](https://pypistats.org/packages/surface-audit)
+shows daily, weekly, and monthly package counts in one place.
+
 ## Usage
 
 ```bash
@@ -87,6 +97,17 @@ surface-audit scan https://example.com \
 ```
 
 Full CLI and library reference: [`docs/USAGE.md`](docs/USAGE.md).
+
+## MCP integration
+
+```bash
+pip install "surface-audit[mcp]"
+surface-audit mcp-serve --allow-host staging.example.com
+```
+
+This exposes `scan`, `list_checks`, `list_formats`, and `render_report`
+tools to local MCP clients while keeping scans gated behind an explicit
+host allow-list.
 
 ## Library example
 
@@ -124,6 +145,7 @@ scorecard, and design patterns.
 - [`docs/INSTALL.md`](docs/INSTALL.md) — per-platform installation
 - [`docs/USAGE.md`](docs/USAGE.md) — CLI, library, and CI recipes
 - [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) — layering and extension points
+- [`docs/SCHEMA.md`](docs/SCHEMA.md) — JSON report contract
 - [`CONTRIBUTING.md`](CONTRIBUTING.md) — development workflow
 - [`SECURITY.md`](SECURITY.md) — vulnerability disclosure
 - [`CODE_OF_CONDUCT.md`](CODE_OF_CONDUCT.md) — community expectations

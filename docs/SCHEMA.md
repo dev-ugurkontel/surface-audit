@@ -1,7 +1,7 @@
 # Report schema
 
-The JSON report produced by `surface-audit scan -f json` is a stable
-machine contract. Every build validates its output against
+The JSON report produced by `surface-audit scan -f json` is intended as
+a stable machine contract. Its shape is described by
 [`schemas/report.schema.json`](../schemas/report.schema.json), which
 uses [JSON Schema 2020-12](https://json-schema.org/draft/2020-12/schema).
 
