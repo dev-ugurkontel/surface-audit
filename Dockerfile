@@ -21,13 +21,11 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1
 
 RUN useradd --create-home --uid 10001 scanner
+COPY --from=builder /dist/*.whl /tmp/
+RUN pip install /tmp/*.whl && rm /tmp/*.whl
+
 USER scanner
 WORKDIR /home/scanner
-
-COPY --from=builder /dist/*.whl /tmp/
-RUN pip install --user /tmp/*.whl && rm /tmp/*.whl
-
-ENV PATH="/home/scanner/.local/bin:${PATH}"
 
 ENTRYPOINT ["surface-audit"]
 CMD ["--help"]

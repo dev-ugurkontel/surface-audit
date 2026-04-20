@@ -34,6 +34,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- GHCR release builds now install the wheel before dropping privileges
+  in the runtime image, avoiding permission errors while cleaning up
+  temporary wheel files during `docker build`.
+- The `Create or update GitHub Release` shell step now closes its
+  `if/else` block correctly, so tagged releases can publish release
+  assets and advance to the major-tag update step.
 - Reworked the README distribution section so GHCR, PyPI, and GitHub
   Action guidance reads as one coherent story instead of three
   disconnected notes.

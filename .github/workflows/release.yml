@@ -138,6 +138,7 @@ jobs:
               --title "$TAG" \
               --notes "See CHANGELOG.md for details." \
               ./dist/*
+          fi
 
       - name: Move GitHub Action major tag
         env:
@@ -149,4 +150,3 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git tag -fa "$major" -m "Update $major to $TAG" "$GITHUB_SHA"
           git push origin "refs/tags/$major" --force
-          fi
