@@ -58,6 +58,7 @@ dev = [
     "pytest>=8.0",
     "pytest-asyncio>=0.23",
     "pytest-cov>=5.0",
+    "jsonschema>=4.23",
     "respx>=0.21",
     "ruff>=0.6",
     "mypy>=1.11",
@@ -90,10 +91,12 @@ cross_origin_isolation = "surface_audit.checks.cross_origin_isolation:CrossOrigi
 open_redirect = "surface_audit.checks.open_redirect:OpenRedirectCheck"
 
 [project.urls]
-Homepage = "https://github.com/dev-ugurkontel/surface-audit"
+Homepage = "https://dev-ugurkontel.github.io/surface-audit/"
 Repository = "https://github.com/dev-ugurkontel/surface-audit"
 Issues = "https://github.com/dev-ugurkontel/surface-audit/issues"
-Documentation = "https://github.com/dev-ugurkontel/surface-audit/tree/main/docs"
+Documentation = "https://dev-ugurkontel.github.io/surface-audit/"
+Discussions = "https://github.com/dev-ugurkontel/surface-audit/discussions"
+Support = "https://github.com/dev-ugurkontel/surface-audit/blob/main/SUPPORT.md"
 Changelog = "https://github.com/dev-ugurkontel/surface-audit/blob/main/CHANGELOG.md"
 Funding = "https://github.com/sponsors/dev-ugurkontel"
 
@@ -193,4 +196,3 @@ exclude_lines = [
 # no-op to signal the policy to human reviewers.
 exclude_dirs = ["tests", ".venv", "build", "dist"]
 skips = ["B101"]
-

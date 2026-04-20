@@ -8,44 +8,122 @@
 [![Checked with mypy](https://img.shields.io/badge/mypy-strict-blue)](https://mypy.readthedocs.io/)
 [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
 
-A modular, asynchronous **web-application security surface auditor**.
+Deterministic **security smoke tests** for staging, preview, and
+pre-deploy web apps.
 
-`surface-audit` sends a small, configurable set of safe probes at a target
-URL, mapping findings to the
-[OWASP Top 10 (2021)](https://owasp.org/Top10/) categories where
-applicable. It is designed for pre-deployment smoke testing, CI gates,
-and as an embeddable Python library. The pluggable architecture
-(`surface_audit.checks` entry points) keeps the tool catalog-agnostic —
-third-party checks can target any standard (NIST, CIS, ASVS, internal
-rules).
+`surface-audit` sends a small, bounded set of safe probes at a **known
+URL** and turns the result into CI-friendly findings, SARIF, Markdown,
+HTML, and JSON reports. It is designed for teams that want to catch
+security regressions in headers, TLS, redirects, cookies, CORS, exposed
+files, and other surface-level mistakes **before** they promote a build.
 
 > ⚠️ **Authorized use only.** This tool sends real HTTP requests to the
 > target. Only run it against systems you own or have explicit written
 > permission to test. See [`SECURITY.md`](SECURITY.md).
 
----
+## Why Teams Use It
 
-## Highlights
+- **Safe by default** — bounded checks against a known URL, not a crawler
+  and not an exploit framework.
+- **Regression-oriented** — baseline suppression and report diff help
+  answer "what got worse?" instead of just "what exists?"
+- **CI-native** — `--fail-on`, SARIF, Markdown, HTML, and JSON all fit
+  cleanly into pull requests, code scanning, and release gates.
+- **LLM-safe MCP support** — the optional MCP server exposes only a
+  host allow-listed interface.
+- **Extensible** — checks and renderers are pluggable via entry points.
+- **Supply-chain aware** — PyPI Trusted Publishing, Sigstore signatures,
+  GitHub Releases, and CycloneDX SBOMs are built into the release flow.
 
-- **Async by default** — checks run concurrently over a shared
-  `httpx.AsyncClient` with a semaphore cap and exponential-backoff retries.
-- **Plugin architecture** — every check is a class registered via
-  Python entry points. Third-party packages add their own without forking.
-- **Multiple output formats** — rich console, JSON, HTML, Markdown
-  (PR-ready), and [SARIF 2.1.0](https://sarifweb.azurewebsites.net/) for
-  GitHub Code Scanning integration.
-- **MCP-ready** — optional `surface-audit[mcp]` install exposes the
-  scanner to Claude Desktop, Cursor, and other MCP clients behind an
-  explicit host allow-list.
-- **Configurable** — TOML config file (`surface-audit.toml` or
-  `[tool.surface-audit]`) plus per-invocation CLI flags.
-- **CI-friendly** — `--fail-on HIGH` gates builds on severity; SARIF
-  uploads integrate natively with GitHub Advanced Security.
-- **Supply-chain aware releases** — the release workflow uses PyPI
-  Trusted Publishing, signs artifacts with Sigstore, and emits a
-  CycloneDX SBOM.
-- **Typed, tested, safe** — `mypy --strict`, `ruff`, `bandit`, and a
-  `pytest` suite with respx-mocked HTTP tests.
+## Use It When
+
+- you have a staging, preview, or pre-production URL
+- you want a deterministic security gate in CI
+- you care about security regressions between two deployments
+- you want machine-readable output for SARIF, dashboards, or PR comments
+
+## Reach for Other Tools When
+
+- you need full crawling or spidering
+- you need authenticated scanning workflows
+- you want exploit confirmation or a broad template corpus
+
+That positioning is deliberate: `surface-audit` is strongest as a
+**pre-deploy security smoke test**, not as a full DAST platform.
+
+## Quick Start
+
+```bash
+pipx install surface-audit
+
+surface-audit scan https://preview.example.com \
+    --scope-host preview.example.com \
+    --fail-on HIGH
+```
+
+Detailed installation: [`docs/INSTALL.md`](docs/INSTALL.md).
+
+Container-first teams can use the published GHCR image on tagged
+releases:
+
+```bash
+docker run --rm ghcr.io/dev-ugurkontel/surface-audit:latest \
+    scan https://preview.example.com --fail-on HIGH
+```
+
+## Security Regression Diff
+
+```bash
+# Capture a baseline once
+surface-audit scan https://preview.example.com \
+    --output reports/baseline.json \
+    --format json
+
+# Gate only on newly introduced HIGH+ findings
+surface-audit scan https://preview.example.com \
+    --baseline reports/baseline.json \
+    --fail-on HIGH
+
+# Or diff two reports explicitly
+surface-audit diff reports/before.json reports/after.json \
+    --output reports/diff.json \
+    --fail-on-new
+```
+
+## GitHub Action
+
+The repository ships an action at the repo root so you can run the scan
+in a preview-environment workflow without hand-rolling install steps:
+
+```yaml
+- name: Run surface-audit
+  uses: dev-ugurkontel/surface-audit@v1
+  with:
+    target: ${{ steps.preview.outputs.url }}
+    scope-hosts: preview.example.com
+    output: reports/surface-audit.sarif
+    format: sarif
+    fail-on: HIGH
+
+- name: Upload SARIF
+  uses: github/codeql-action/upload-sarif@v3
+  with:
+    sarif_file: reports/surface-audit.sarif
+```
+
+More end-to-end patterns: [`docs/RECIPES.md`](docs/RECIPES.md).
+
+## Sample Output
+
+```text
+Target: https://preview.example.com/
+Summary: HIGH 1  MEDIUM 2  LOW 1
+
+HIGH     security-headers        Missing Content-Security-Policy header
+MEDIUM   auth-cookies            Cookie 'sessionid' missing SameSite
+MEDIUM   security-txt            Missing /.well-known/security.txt
+LOW      directory-listing       Auto-generated index page exposed
+```
 
 ## Built-in checks
 
@@ -67,18 +145,6 @@ rules).
 
 Run `surface-audit list-checks` to see what is registered in your
 environment (including any third-party plugins).
-
-## Quick start
-
-```bash
-pipx install surface-audit
-surface-audit scan https://example.com
-```
-
-Detailed per-platform setup: [`docs/INSTALL.md`](docs/INSTALL.md).
-
-Download trends: [PyPI Stats](https://pypistats.org/packages/surface-audit)
-shows daily, weekly, and monthly package counts in one place.
 
 ## Usage
 
@@ -108,6 +174,16 @@ surface-audit mcp-serve --allow-host staging.example.com
 This exposes `scan`, `list_checks`, `list_formats`, and `render_report`
 tools to local MCP clients while keeping scans gated behind an explicit
 host allow-list.
+
+## Project Site
+
+The project site highlights the smoke-test workflow, GitHub Action, and
+core adoption patterns:
+
+- <https://dev-ugurkontel.github.io/surface-audit/>
+
+Download trends remain available via
+[PyPI Stats](https://pypistats.org/packages/surface-audit).
 
 ## Library example
 
@@ -144,8 +220,10 @@ scorecard, and design patterns.
 
 - [`docs/INSTALL.md`](docs/INSTALL.md) — per-platform installation
 - [`docs/USAGE.md`](docs/USAGE.md) — CLI, library, and CI recipes
+- [`docs/RECIPES.md`](docs/RECIPES.md) — preview, SARIF, baseline, MCP, and action recipes
 - [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) — layering and extension points
 - [`docs/SCHEMA.md`](docs/SCHEMA.md) — JSON report contract
+- [`SUPPORT.md`](SUPPORT.md) — where to ask questions and report the right thing
 - [`CONTRIBUTING.md`](CONTRIBUTING.md) — development workflow
 - [`SECURITY.md`](SECURITY.md) — vulnerability disclosure
 - [`CODE_OF_CONDUCT.md`](CODE_OF_CONDUCT.md) — community expectations

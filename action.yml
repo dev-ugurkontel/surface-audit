@@ -1,0 +1,116 @@
+name: surface-audit
+description: Run deterministic web security smoke tests against a known URL.
+branding:
+  icon: shield
+  color: blue
+
+inputs:
+  target:
+    description: Target URL to scan.
+    required: true
+  python-version:
+    description: Python version used to install and run surface-audit.
+    required: false
+    default: "3.12"
+  package-spec:
+    description: >-
+      Optional pip install spec, for example `surface-audit==1.0.1`. When
+      omitted, the action installs the checked-out action source so the
+      action ref and tool version stay aligned.
+    required: false
+    default: ""
+  output:
+    description: Optional output file path. When set, `format` is also used.
+    required: false
+    default: ""
+  format:
+    description: Output format used with `output`.
+    required: false
+    default: "sarif"
+  fail-on:
+    description: Optional severity threshold such as HIGH or CRITICAL.
+    required: false
+    default: ""
+  baseline:
+    description: Optional baseline JSON report path for regression-only gating.
+    required: false
+    default: ""
+  scope-hosts:
+    description: Optional comma-separated hostname allow-list.
+    required: false
+    default: ""
+  extra-args:
+    description: Optional additional CLI arguments, one argument per line.
+    required: false
+    default: ""
+
+runs:
+  using: composite
+  steps:
+    - name: Set up Python
+      uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
+      with:
+        python-version: ${{ inputs.python-version }}
+
+    - name: Install surface-audit
+      shell: bash
+      env:
+        PACKAGE_SPEC: ${{ inputs.package-spec }}
+        ACTION_PATH: ${{ github.action_path }}
+      run: |
+        set -euo pipefail
+        python -m pip install --upgrade pip
+        if [[ -n "$PACKAGE_SPEC" ]]; then
+          pip install "$PACKAGE_SPEC"
+        else
+          pip install "$ACTION_PATH"
+        fi
+
+    - name: Run scan
+      shell: bash
+      env:
+        TARGET: ${{ inputs.target }}
+        OUTPUT: ${{ inputs.output }}
+        FORMAT: ${{ inputs.format }}
+        FAIL_ON: ${{ inputs.fail-on }}
+        BASELINE: ${{ inputs.baseline }}
+        SCOPE_HOSTS: ${{ inputs.scope-hosts }}
+        EXTRA_ARGS: ${{ inputs.extra-args }}
+      run: |
+        set -euo pipefail
+        args=(scan "$TARGET")
+
+        if [[ -n "$OUTPUT" ]]; then
+          args+=(--output "$OUTPUT" --format "$FORMAT")
+        fi
+
+        if [[ -n "$FAIL_ON" ]]; then
+          args+=(--fail-on "$FAIL_ON")
+        fi
+
+        if [[ -n "$BASELINE" ]]; then
+          args+=(--baseline "$BASELINE")
+        fi
+
+        if [[ -n "$SCOPE_HOSTS" ]]; then
+          IFS=',' read -r -a hosts <<< "$SCOPE_HOSTS"
+          for host in "${hosts[@]}"; do
+            trimmed="$(printf '%s' "$host" | xargs)"
+            if [[ -n "$trimmed" ]]; then
+              args+=(--scope-host "$trimmed")
+            fi
+          done
+        fi
+
+        if [[ -n "$EXTRA_ARGS" ]]; then
+          while IFS= read -r arg; do
+            if [[ -n "$arg" ]]; then
+              args+=("$arg")
+            fi
+          done <<< "$EXTRA_ARGS"
+        fi
+
+        printf 'Running: surface-audit'
+        printf ' %q' "${args[@]}"
+        printf '\n'
+        surface-audit "${args[@]}"
