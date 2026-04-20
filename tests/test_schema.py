@@ -9,9 +9,11 @@ from jsonschema import Draft202012Validator
 
 from surface_audit.models import Finding, FindingCategory, ScanReport, Severity
 
+SCHEMA_PATH = Path(__file__).resolve().parent.parent / "schemas" / "report.schema.json"
+
 
 def _validator() -> Draft202012Validator:
-    schema = json.loads(Path("schemas/report.schema.json").read_text(encoding="utf-8"))
+    schema = json.loads(SCHEMA_PATH.read_text(encoding="utf-8"))
     return Draft202012Validator(schema)
 
 
