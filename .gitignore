@@ -86,6 +86,9 @@ reports/
 !examples/**/*.json
 !schemas/
 !schemas/report.schema.json
+!docs/site/samples/*.txt
+!docs/site/samples/*.html
+!docs/site/samples/*.json
 
 # Logs
 *.log

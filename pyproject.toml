@@ -4,8 +4,8 @@ build-backend = "hatchling.build"
 
 [project]
 name = "surface-audit"
-version = "1.0.1"
-description = "Modular async web-application security surface auditor with pluggable checks, MCP support, and CI-friendly reports."
+version = "1.0.2"
+description = "Deterministic web security smoke tests for preview, staging, and pre-deploy URLs."
 readme = "README.md"
 requires-python = ">=3.10"
 license = { file = "LICENSE" }
@@ -21,10 +21,14 @@ keywords = [
     "csp",
     "hsts",
     "cors",
+    "preview",
+    "staging",
+    "devsecops",
+    "github-actions",
     "sarif",
     "mcp",
     "vulnerability",
-    "pentest",
+    "ghcr",
 ]
 classifiers = [
     "Development Status :: 5 - Production/Stable",

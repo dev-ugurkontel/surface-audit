@@ -7,6 +7,37 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.2] - 2026-04-21
+
+### Added
+
+- A fuller `docs/RECIPES.md` preview-environment workflow showing how
+  to keep a trusted baseline in the repository, diff against it in CI,
+  upload SARIF, and preserve raw report artifacts for debugging.
+- Representative sample artifacts on the project site for console, HTML,
+  and SARIF output so visitors can inspect real report shapes quickly.
+- A starter template under `examples/plugin-template` for authors who
+  want to ship third-party `surface-audit` checks with entry-point
+  wiring and tests already in place.
+- A docs-link regression test so broken relative Markdown links are
+  caught in CI instead of after release.
+
+### Changed
+
+- PyPI metadata and README positioning now describe `surface-audit`
+  primarily as a deterministic preview/staging security smoke test.
+- GitHub Action and SARIF examples now reference the current
+  `github/codeql-action/upload-sarif@v4` line.
+- Release automation now maintains the GitHub Action major tag `v1`
+  alongside versioned tags so `uses: dev-ugurkontel/surface-audit@v1`
+  stays valid after future releases.
+
+### Fixed
+
+- Reworked the README distribution section so GHCR, PyPI, and GitHub
+  Action guidance reads as one coherent story instead of three
+  disconnected notes.
+
 ## [1.0.1] - 2026-04-20
 
 ### Added

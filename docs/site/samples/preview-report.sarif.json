@@ -1,0 +1,170 @@
+{
+  "$schema": "https://json.schemastore.org/sarif-2.1.0.json",
+  "runs": [
+    {
+      "results": [
+        {
+          "level": "error",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "https://preview.example.com/"
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "The response does not define a Content-Security-Policy header."
+          },
+          "partialFingerprints": {
+            "primaryLocationLineHash": "693b923f8d9f71e23adf215cf3cff0e140461122c0db85632ce6f85d00c30b3e"
+          },
+          "properties": {
+            "owaspCategory": "A05:2021 - Security Misconfiguration",
+            "recommendation": "Set a strict Content-Security-Policy header.",
+            "severity": "HIGH"
+          },
+          "ruleId": "surface-audit/security-headers"
+        },
+        {
+          "level": "warning",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "https://preview.example.com/login"
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "The session cookie is missing the SameSite attribute."
+          },
+          "partialFingerprints": {
+            "primaryLocationLineHash": "3e70f68cd9043ac84b896c64eb8b5e49633c00f053bd112cdea889029fc61140"
+          },
+          "properties": {
+            "owaspCategory": "A07:2021 - Identification and Authentication Failures",
+            "recommendation": "Set SameSite=Lax or SameSite=Strict for session cookies.",
+            "severity": "MEDIUM"
+          },
+          "ruleId": "surface-audit/auth-cookies"
+        },
+        {
+          "level": "warning",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "https://preview.example.com/.well-known/security.txt"
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "No RFC 9116 security.txt file was found."
+          },
+          "partialFingerprints": {
+            "primaryLocationLineHash": "fe601293ae965504148b5384b88db476d8961aa7079c2d710a4af89af462f2fb"
+          },
+          "properties": {
+            "owaspCategory": "A09:2021 - Security Logging and Monitoring Failures",
+            "recommendation": "Publish a security.txt file under /.well-known/security.txt.",
+            "severity": "MEDIUM"
+          },
+          "ruleId": "surface-audit/security-txt"
+        },
+        {
+          "level": "note",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "https://preview.example.com/assets/"
+                }
+              }
+            }
+          ],
+          "message": {
+            "text": "A directory listing appears to be enabled for a web path."
+          },
+          "partialFingerprints": {
+            "primaryLocationLineHash": "48f35a4c7a3222614463de4a8c8cf5714fbde06045df2f78489e76a084ce0d4b"
+          },
+          "properties": {
+            "owaspCategory": "A05:2021 - Security Misconfiguration",
+            "recommendation": "Disable directory indexes for public paths.",
+            "severity": "LOW"
+          },
+          "ruleId": "surface-audit/directory-listing"
+        }
+      ],
+      "tool": {
+        "driver": {
+          "informationUri": "https://github.com/dev-ugurkontel/surface-audit",
+          "name": "surface-audit",
+          "rules": [
+            {
+              "fullDescription": {
+                "text": "The response does not define a Content-Security-Policy header."
+              },
+              "helpUri": "https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP",
+              "id": "surface-audit/security-headers",
+              "name": "security-headers",
+              "properties": {
+                "category": "A05:2021 - Security Misconfiguration"
+              },
+              "shortDescription": {
+                "text": "Missing Content-Security-Policy header"
+              }
+            },
+            {
+              "fullDescription": {
+                "text": "The session cookie is missing the SameSite attribute."
+              },
+              "helpUri": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Set-Cookie",
+              "id": "surface-audit/auth-cookies",
+              "name": "auth-cookies",
+              "properties": {
+                "category": "A07:2021 - Identification and Authentication Failures"
+              },
+              "shortDescription": {
+                "text": "Cookie 'sessionid' missing SameSite"
+              }
+            },
+            {
+              "fullDescription": {
+                "text": "No RFC 9116 security.txt file was found."
+              },
+              "helpUri": "https://www.rfc-editor.org/rfc/rfc9116",
+              "id": "surface-audit/security-txt",
+              "name": "security-txt",
+              "properties": {
+                "category": "A09:2021 - Security Logging and Monitoring Failures"
+              },
+              "shortDescription": {
+                "text": "Missing /.well-known/security.txt"
+              }
+            },
+            {
+              "fullDescription": {
+                "text": "A directory listing appears to be enabled for a web path."
+              },
+              "helpUri": "https://owasp.org/Top10/A05_2021-Security_Misconfiguration/",
+              "id": "surface-audit/directory-listing",
+              "name": "directory-listing",
+              "properties": {
+                "category": "A05:2021 - Security Misconfiguration"
+              },
+              "shortDescription": {
+                "text": "Auto-generated index page exposed"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "version": "2.1.0"
+}

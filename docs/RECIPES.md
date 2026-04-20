@@ -67,10 +67,99 @@ The repository now ships a reusable action at the repo root:
     fail-on: HIGH
 
 - name: Upload SARIF
-  uses: github/codeql-action/upload-sarif@v3
+  uses: github/codeql-action/upload-sarif@v4
   with:
     sarif_file: reports/surface-audit.sarif
 ```
+
+Use `@v1` for the stable major line, or pin an exact action version
+such as `@v1.0.2` when you want fully reproducible workflow inputs.
+
+## Preview workflow with baseline diff and SARIF upload
+
+For regression-focused pull request gating, keep a trusted baseline JSON
+file in the repository and compare the current preview against it:
+
+```bash
+# Capture once from a trusted branch and commit the file:
+surface-audit scan https://preview.example.com \
+    --scope-host preview.example.com \
+    --output .surface-audit/preview-baseline.json \
+    --format json
+```
+
+Then use a CI job like this:
+
+```yaml
+name: Preview security gate
+
+on:
+  pull_request:
+
+jobs:
+  surface-audit:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      security-events: write
+    steps:
+      - uses: actions/checkout@v6
+
+      # Replace this with however your preview URL is discovered.
+      - name: Resolve preview URL
+        id: preview
+        run: echo "url=https://preview.example.com" >> "$GITHUB_OUTPUT"
+
+      - name: Install surface-audit
+        run: python -m pip install surface-audit==1.0.2
+
+      - name: Capture current JSON report
+        run: |
+          mkdir -p reports
+          surface-audit scan "${{ steps.preview.outputs.url }}" \
+            --scope-host preview.example.com \
+            --output reports/current.json \
+            --format json
+
+      - name: Diff against the trusted baseline
+        run: |
+          surface-audit diff \
+            .surface-audit/preview-baseline.json \
+            reports/current.json \
+            --output reports/diff.json \
+            --fail-on-new
+
+      - name: Emit SARIF for GitHub code scanning
+        if: always()
+        run: |
+          surface-audit scan "${{ steps.preview.outputs.url }}" \
+            --scope-host preview.example.com \
+            --baseline .surface-audit/preview-baseline.json \
+            --output reports/surface-audit.sarif \
+            --format sarif \
+            --fail-on HIGH \
+            --quiet
+
+      - name: Upload SARIF
+        if: always()
+        uses: github/codeql-action/upload-sarif@v4
+        with:
+          sarif_file: reports/surface-audit.sarif
+
+      - name: Upload raw reports
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: surface-audit-reports
+          path: reports/
+```
+
+Why this recipe works:
+
+- the checked-in baseline keeps PR runs deterministic
+- `diff --fail-on-new` answers "what got worse?" directly
+- SARIF still lands in GitHub code scanning for reviewer visibility
+- the raw JSON and diff artifacts remain available for debugging
 
 ## MCP allow-list pattern
 
@@ -104,3 +193,6 @@ docker pull ghcr.io/dev-ugurkontel/surface-audit:latest
 docker run --rm ghcr.io/dev-ugurkontel/surface-audit:latest \
     scan https://example.com --fail-on HIGH
 ```
+
+Use `:latest` for convenience or a versioned tag such as `:1.0.2` when
+you want an immutable container reference.

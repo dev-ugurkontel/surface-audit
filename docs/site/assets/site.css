@@ -490,9 +490,53 @@ h3 {
   margin-top: 0.55rem;
 }
 
+.artifact-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.artifact-card {
+  padding: 1.35rem;
+  border-radius: 28px;
+  border: 1px solid var(--line);
+  background: linear-gradient(180deg, rgba(17, 29, 50, 0.92), rgba(10, 19, 34, 0.92));
+  box-shadow: var(--shadow);
+}
+
+.artifact-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.9rem;
+}
+
+.artifact-link {
+  color: var(--text);
+  font-size: 0.92rem;
+  font-weight: 700;
+}
+
+.artifact-link:hover,
+.artifact-link:focus-visible {
+  color: var(--accent);
+}
+
+.artifact-card pre {
+  min-height: 14rem;
+  padding: 1rem;
+  border-radius: 22px;
+  background: rgba(7, 16, 29, 0.72);
+  border: 1px solid rgba(151, 169, 200, 0.14);
+  color: #f2f7ff;
+  font-size: 0.84rem;
+  line-height: 1.75;
+}
+
 .link-grid {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   gap: 1rem;
 }
 
@@ -533,6 +577,7 @@ h3 {
   .two-up,
   .scope-grid,
   .flow-grid,
+  .artifact-grid,
   .link-grid {
     grid-template-columns: 1fr;
   }

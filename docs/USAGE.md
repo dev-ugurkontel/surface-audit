@@ -248,7 +248,7 @@ config/input/report/baseline values, renderer failures, and
     pipx install surface-audit
     surface-audit scan https://staging.example.com \
       --output scan.sarif --format sarif --fail-on HIGH --quiet
-- uses: github/codeql-action/upload-sarif@v3
+- uses: github/codeql-action/upload-sarif@v4
   if: always()
   with:
     sarif_file: scan.sarif

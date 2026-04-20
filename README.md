@@ -63,6 +63,15 @@ surface-audit scan https://preview.example.com \
 
 Detailed installation: [`docs/INSTALL.md`](docs/INSTALL.md).
 
+## Distribution Options
+
+- **PyPI** — best when you want the CLI in `pipx`, a virtualenv, or
+  your own Python-based tooling.
+- **GHCR** — best when your CI prefers a prebuilt container image over
+  installing Python dependencies at runtime.
+- **GitHub Action** — best when a preview-environment workflow already
+  lives in GitHub Actions and you want the shortest integration path.
+
 Container-first teams can use the published GHCR image on tagged
 releases:
 
@@ -70,29 +79,14 @@ releases:
 docker run --rm ghcr.io/dev-ugurkontel/surface-audit:latest \
     scan https://preview.example.com --fail-on HIGH
 ```
-### When to use GHCR vs PyPI vs GitHub Action
 
-- **GHCR (Container Image)**  
-  Use when you want a reproducible, containerized scan without installing dependencies locally.
+Use the GitHub Action `@v1` tag for the stable major line, or pin an
+exact action release such as `@v1.0.2` when you want fully reproducible
+workflow inputs. Tagged releases also publish GitHub Release artifacts,
+CycloneDX SBOMs, and Sigstore signatures.
 
-- **PyPI (pip install)**  
-  Use when you prefer running `surface-audit` directly in your Python environment.
+More end-to-end patterns: [`docs/RECIPES.md`](docs/RECIPES.md).
 
-- **GitHub Action**  
-  Use when integrating scans into CI/CD workflows for automated checks.
-
-
-### Release artifacts, SBOMs, and signatures
-
-- Release artifacts are available via GitHub releases.
-- SBOMs provide dependency transparency.
-- Signatures ensure integrity of published images and packages.
-
-
-### Related recipes
-
-For more usage patterns, see:
-[`docs/RECIPES.md`](docs/RECIPES.md)
 ## Security Regression Diff
 
 ```bash
@@ -128,7 +122,7 @@ in a preview-environment workflow without hand-rolling install steps:
     fail-on: HIGH
 
 - name: Upload SARIF
-  uses: github/codeql-action/upload-sarif@v3
+  uses: github/codeql-action/upload-sarif@v4
   with:
     sarif_file: reports/surface-audit.sarif
 ```
@@ -199,10 +193,13 @@ host allow-list.
 
 ## Project Site
 
-The project site highlights the smoke-test workflow, GitHub Action, and
-core adoption patterns:
+The project site highlights the smoke-test workflow, GitHub Action,
+sample artifacts, and core adoption patterns:
 
-- <https://dev-ugurkontel.github.io/surface-audit/>
+- [Project landing page](https://dev-ugurkontel.github.io/surface-audit/)
+- [Console sample](https://dev-ugurkontel.github.io/surface-audit/samples/preview-report.console.txt)
+- [HTML sample](https://dev-ugurkontel.github.io/surface-audit/samples/preview-report.html)
+- [SARIF sample](https://dev-ugurkontel.github.io/surface-audit/samples/preview-report.sarif.json)
 
 Download trends remain available via
 [PyPI Stats](https://pypistats.org/packages/surface-audit).
@@ -227,7 +224,8 @@ asyncio.run(main())
 ## Extend it
 
 Any package shipping an entry point under `surface_audit.checks` adds a
-check:
+check. A starter template for third-party checks lives under
+[`examples/plugin-template`](examples/plugin-template):
 
 ```toml
 # your-plugin/pyproject.toml
@@ -245,6 +243,7 @@ scorecard, and design patterns.
 - [`docs/RECIPES.md`](docs/RECIPES.md) — preview, SARIF, baseline, MCP, and action recipes
 - [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) — layering and extension points
 - [`docs/SCHEMA.md`](docs/SCHEMA.md) — JSON report contract
+- [`examples/plugin-template`](examples/plugin-template) — starter template for third-party checks
 - [`SUPPORT.md`](SUPPORT.md) — where to ask questions and report the right thing
 - [`CONTRIBUTING.md`](CONTRIBUTING.md) — development workflow
 - [`SECURITY.md`](SECURITY.md) — vulnerability disclosure

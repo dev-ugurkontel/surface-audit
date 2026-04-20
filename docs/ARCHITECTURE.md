@@ -86,7 +86,9 @@ HTML output did not require touching the scanner or the CLI.
 
 `pyproject.toml` declares `surface_audit.checks` entry points. Any
 third-party wheel that exposes the same group extends the built-in
-set at runtime without code changes.
+set at runtime without code changes. A minimal starter lives in
+[`../examples/plugin-template`](../examples/plugin-template) so new
+check authors can start from a tested layout instead of a blank folder.
 
 ### Dependency Inversion — `CheckContext`
 

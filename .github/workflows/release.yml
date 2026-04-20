@@ -138,4 +138,15 @@ jobs:
               --title "$TAG" \
               --notes "See CHANGELOG.md for details." \
               ./dist/*
+
+      - name: Move GitHub Action major tag
+        env:
+          TAG: ${{ github.ref_name }}
+        run: |
+          set -euo pipefail
+          major="${TAG%%.*}"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git tag -fa "$major" -m "Update $major to $TAG" "$GITHUB_SHA"
+          git push origin "refs/tags/$major" --force
           fi

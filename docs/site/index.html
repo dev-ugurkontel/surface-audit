@@ -8,6 +8,15 @@
       name="description"
       content="surface-audit gives teams a deterministic security smoke test for preview, staging, and pre-deploy URLs with CI-friendly output."
     />
+    <meta name="theme-color" content="#07111f" />
+    <meta property="og:title" content="surface-audit | Security smoke tests for preview and staging URLs" />
+    <meta
+      property="og:description"
+      content="Deterministic security smoke tests for preview, staging, and pre-deploy URLs with CI-friendly reports, GitHub Action support, and bounded MCP integrations."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://dev-ugurkontel.github.io/surface-audit/" />
+    <link rel="canonical" href="https://dev-ugurkontel.github.io/surface-audit/" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -219,6 +228,64 @@ surface-audit mcp-serve \
 
         <section class="section">
           <div class="section-heading">
+            <span class="section-kicker">Artifact previews</span>
+            <h2>Inspect representative outputs before you wire the tool into CI</h2>
+            <p>
+              These samples show the three report surfaces most teams evaluate first: terminal
+              output for humans, HTML for quick sharing, and SARIF for code scanning integrations.
+            </p>
+          </div>
+          <div class="artifact-grid">
+            <article class="artifact-card">
+              <div class="artifact-head">
+                <span class="section-kicker">Console</span>
+                <a class="artifact-link" href="./samples/preview-report.console.txt">Open sample</a>
+              </div>
+              <pre>Target: https://preview.example.com/
+Summary: HIGH 1  MEDIUM 2  LOW 1
+
+HIGH     security-headers     Missing Content-Security-Policy header
+MEDIUM   auth-cookies         Cookie 'sessionid' missing SameSite
+MEDIUM   security-txt         Missing /.well-known/security.txt</pre>
+            </article>
+            <article class="artifact-card">
+              <div class="artifact-head">
+                <span class="section-kicker">HTML</span>
+                <a class="artifact-link" href="./samples/preview-report.html">Open sample</a>
+              </div>
+              <pre>&lt;title&gt;surface-audit Report&lt;/title&gt;
+Target: https://preview.example.com/
+Duration: 3.00s
+Findings: 4
+
+HIGH    security-headers
+MEDIUM  auth-cookies
+MEDIUM  security-txt
+LOW     directory-listing</pre>
+            </article>
+            <article class="artifact-card">
+              <div class="artifact-head">
+                <span class="section-kicker">SARIF</span>
+                <a class="artifact-link" href="./samples/preview-report.sarif.json">Open sample</a>
+              </div>
+              <pre>{
+  "version": "2.1.0",
+  "runs": [
+    {
+      "tool": { "driver": { "name": "surface-audit" } },
+      "results": [
+        { "ruleId": "surface-audit/security-headers" },
+        { "ruleId": "surface-audit/auth-cookies" }
+      ]
+    }
+  ]
+}</pre>
+            </article>
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="section-heading">
             <span class="section-kicker">Docs and support</span>
             <h2>Start with the README, then go deeper only when you need to</h2>
           </div>
@@ -234,6 +301,10 @@ surface-audit mcp-serve \
             <a class="doc-link" href="https://github.com/dev-ugurkontel/surface-audit/blob/main/docs/ARCHITECTURE.md">
               <strong>Architecture</strong>
               <span>Layering, extension points, and the boundaries of the core project.</span>
+            </a>
+            <a class="doc-link" href="https://github.com/dev-ugurkontel/surface-audit/tree/main/examples/plugin-template">
+              <strong>Plugin template</strong>
+              <span>Starter package for a third-party check with entry points and tests.</span>
             </a>
             <a class="doc-link" href="https://github.com/dev-ugurkontel/surface-audit/blob/main/SUPPORT.md">
               <strong>Support</strong>
