@@ -55,6 +55,10 @@ surface-audit scan https://staging.local \
     --insecure
 ```
 
+Note: the `ssl-tls` check opens a direct socket and does not route
+through `--proxy`. If you need proxy-only coverage, disable that check
+or rely on the proxy's own TLS inspection.
+
 ### Custom User-Agent (bot detection bypass for your own origin)
 
 ```bash
@@ -174,15 +178,20 @@ asyncio.run(main())
 ### Customize the run
 
 ```python
+import asyncio
 from surface_audit import Scanner, ScannerConfig
 
-config = ScannerConfig(
-    timeout=5.0,
-    max_concurrency=4,
-    disabled_checks=frozenset({"sql-injection"}),
-    retry_attempts=5,
-)
-report = await Scanner("https://example.com", config=config).run()
+async def main() -> None:
+    config = ScannerConfig(
+        timeout=5.0,
+        max_concurrency=4,
+        disabled_checks=frozenset({"sql-injection"}),
+        retry_attempts=5,
+    )
+    report = await Scanner("https://example.com", config=config).run()
+    print(report.max_severity())
+
+asyncio.run(main())
 ```
 
 ### Render to JSON or SARIF from code
@@ -220,10 +229,14 @@ for more.
 
 | Code | Meaning                                                  |
 | ---- | -------------------------------------------------------- |
-| 0    | Scan completed. Either no findings or below `--fail-on`. |
-| 1    | Unexpected runtime error.                                |
-| 2    | Scan completed, findings at or above `--fail-on`.        |
+| 0    | Command completed without tripping a gating condition.   |
+| 1    | Unexpected uncaught runtime error.                       |
+| 2    | Expected non-zero outcome from a documented gate or user-facing error. |
 | 130  | Interrupted (Ctrl-C).                                    |
+
+Code `2` is used for `--fail-on`, scope denials, invalid
+config/input/report/baseline values, renderer failures, and
+`diff --fail-on-new`.
 
 ## CI recipes
 

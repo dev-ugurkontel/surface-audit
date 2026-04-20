@@ -105,4 +105,4 @@ pipx uninstall surface-audit
 | `zsh: command not found: python`           | macOS has no `python` alias          | Use `python3` or create a venv                                |
 | `ModuleNotFoundError: No module named ...` | Package not installed into this venv | `pip install -e .` in the project dir                         |
 | `surface-audit: command not found`         | `~/.local/bin` not in `PATH`         | `pipx ensurepath` then re-open the terminal                   |
-| SSL handshake errors                       | Corporate proxy or MITM              | Use `--insecure` for lab testing, or set `REQUESTS_CA_BUNDLE` |
+| SSL handshake errors                       | Corporate proxy or MITM              | Use `--insecure` for lab testing, or set `SSL_CERT_FILE` / `SSL_CERT_DIR` |
