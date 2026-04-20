@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>surface-audit Report — https://preview.example.com/</title>
+    <style>
+      body { font-family: -apple-system, system-ui, sans-serif; margin: 2rem; color: #1a1a1a; }
+      h1 { margin-bottom: 0.25rem; }
+      .meta { color: #666; font-size: 0.9rem; margin-bottom: 1.5rem; }
+      .chips { display: flex; gap: 0.5rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
+      .chip { padding: 0.5rem 0.75rem; border-radius: 999px; background: #f4f4f5; display: flex; gap: 0.5rem; align-items: baseline; }
+      .chip strong { font-size: 1.1rem; }
+      .chip-critical { background: #fee2e2; color: #7f1d1d; }
+      .chip-high     { background: #fef3c7; color: #78350f; }
+      .chip-medium   { background: #fef9c3; color: #713f12; }
+      .chip-low      { background: #dbeafe; color: #1e3a8a; }
+      .chip-info     { background: #e5e7eb; color: #374151; }
+      table { border-collapse: collapse; width: 100%; }
+      th, td { text-align: left; padding: 0.6rem 0.75rem; border-bottom: 1px solid #e5e7eb; vertical-align: top; }
+      th { background: #fafafa; font-weight: 600; }
+      .sev { font-weight: 600; }
+      .sev-critical { color: #b91c1c; }
+      .sev-high     { color: #c2410c; }
+      .sev-medium   { color: #a16207; }
+      .sev-low      { color: #1d4ed8; }
+      .sev-info     { color: #4b5563; }
+    </style>
+  </head>
+  <body>
+    <h1>surface-audit Report</h1>
+    <div class="meta">
+      Target: <code>https://preview.example.com/</code>
+      · Started: 2026-04-21T10:00:00+00:00
+      · Duration: 3.00s
+      · Findings: 4
+    </div>
+    <div class="chips">
+      <div class="chip chip-critical"><span>CRITICAL</span><strong>0</strong></div>
+      <div class="chip chip-high"><span>HIGH</span><strong>1</strong></div>
+      <div class="chip chip-medium"><span>MEDIUM</span><strong>2</strong></div>
+      <div class="chip chip-low"><span>LOW</span><strong>1</strong></div>
+      <div class="chip chip-info"><span>INFO</span><strong>0</strong></div>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>Severity</th>
+          <th>Check</th>
+          <th>Title</th>
+          <th>Category</th>
+          <th>Description</th>
+          <th>Recommendation</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="sev sev-high">HIGH</td>
+          <td>security-headers</td>
+          <td>Missing Content-Security-Policy header</td>
+          <td>A05:2021 - Security Misconfiguration</td>
+          <td>The response does not define a Content-Security-Policy header.</td>
+          <td>Set a strict Content-Security-Policy header.</td>
+        </tr>
+        <tr>
+          <td class="sev sev-medium">MEDIUM</td>
+          <td>auth-cookies</td>
+          <td>Cookie 'sessionid' missing SameSite</td>
+          <td>A07:2021 - Identification and Authentication Failures</td>
+          <td>The session cookie is missing the SameSite attribute.</td>
+          <td>Set SameSite=Lax or SameSite=Strict for session cookies.</td>
+        </tr>
+        <tr>
+          <td class="sev sev-medium">MEDIUM</td>
+          <td>security-txt</td>
+          <td>Missing /.well-known/security.txt</td>
+          <td>A09:2021 - Security Logging and Monitoring Failures</td>
+          <td>No RFC 9116 security.txt file was found.</td>
+          <td>Publish a security.txt file under /.well-known/security.txt.</td>
+        </tr>
+        <tr>
+          <td class="sev sev-low">LOW</td>
+          <td>directory-listing</td>
+          <td>Auto-generated index page exposed</td>
+          <td>A05:2021 - Security Misconfiguration</td>
+          <td>A directory listing appears to be enabled for a web path.</td>
+          <td>Disable directory indexes for public paths.</td>
+        </tr>
+      </tbody>
+    </table>
+  </body>
+</html>

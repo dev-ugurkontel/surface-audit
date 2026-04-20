@@ -14,9 +14,9 @@ inputs:
     default: "3.12"
   package-spec:
     description: >-
-      Optional pip install spec, for example `surface-audit==1.0.1`. When
-      omitted, the action installs the checked-out action source so the
-      action ref and tool version stay aligned.
+      Optional pip install spec, for example `surface-audit==<exact-version>`.
+      When omitted, the action installs the checked-out action source so
+      the action ref and tool version stay aligned.
     required: false
     default: ""
   output:

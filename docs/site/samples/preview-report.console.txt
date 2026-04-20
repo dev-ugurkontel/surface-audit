@@ -1,0 +1,7 @@
+Target: https://preview.example.com/
+Summary: HIGH 1  MEDIUM 2  LOW 1
+
+HIGH     security-headers     Missing Content-Security-Policy header
+MEDIUM   auth-cookies         Cookie 'sessionid' missing SameSite
+MEDIUM   security-txt         Missing /.well-known/security.txt
+LOW      directory-listing    Auto-generated index page exposed

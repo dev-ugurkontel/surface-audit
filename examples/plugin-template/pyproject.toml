@@ -1,0 +1,29 @@
+[build-system]
+requires = ["hatchling>=1.26"]
+build-backend = "hatchling.build"
+
+[project]
+name = "surface-audit-header-check"
+version = "0.1.0"
+description = "Example third-party check package for surface-audit."
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "surface-audit>=1.0,<2.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+    "pytest-asyncio>=0.23",
+    "respx>=0.21",
+]
+
+[project.entry-points."surface_audit.checks"]
+x_powered_by = "surface_audit_header_check.checks:PoweredByHeaderCheck"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/surface_audit_header_check"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
