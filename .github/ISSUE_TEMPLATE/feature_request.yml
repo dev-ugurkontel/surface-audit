@@ -1,6 +1,6 @@
 name: Feature request
 description: Propose a new check, renderer, or capability.
-labels: ["enhancement", "triage"]
+labels: ["enhancement", "needs-triage"]
 body:
   - type: textarea
     id: problem
