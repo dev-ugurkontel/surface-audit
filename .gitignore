@@ -84,6 +84,8 @@ reports/
 *report*.html
 *report*.sarif
 !examples/**/*.json
+!schemas/
+!schemas/report.schema.json
 
 # Logs
 *.log

@@ -1,0 +1,116 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/dev-ugurkontel/surface-audit/schemas/report.schema.json",
+  "title": "surface-audit report",
+  "description": "Stable contract for the JSON output of `surface-audit scan -f json`.",
+  "type": "object",
+  "required": [
+    "target",
+    "started_at",
+    "duration_seconds",
+    "summary",
+    "findings",
+    "errors"
+  ],
+  "properties": {
+    "target": {
+      "type": "object",
+      "required": ["url", "hostname", "port", "scheme"],
+      "properties": {
+        "url": {"type": "string", "format": "uri"},
+        "hostname": {"type": "string", "minLength": 1},
+        "port": {"type": "integer", "minimum": 1, "maximum": 65535},
+        "scheme": {"type": "string", "enum": ["http", "https"]}
+      },
+      "additionalProperties": false
+    },
+    "started_at": {"type": "string", "format": "date-time"},
+    "finished_at": {
+      "oneOf": [
+        {"type": "string", "format": "date-time"},
+        {"type": "null"}
+      ]
+    },
+    "duration_seconds": {"type": "number", "minimum": 0},
+    "summary": {
+      "type": "object",
+      "required": ["total", "by_severity", "max_severity"],
+      "properties": {
+        "total": {"type": "integer", "minimum": 0},
+        "by_severity": {
+          "type": "object",
+          "required": ["CRITICAL", "HIGH", "MEDIUM", "LOW", "INFO"],
+          "properties": {
+            "CRITICAL": {"type": "integer", "minimum": 0},
+            "HIGH": {"type": "integer", "minimum": 0},
+            "MEDIUM": {"type": "integer", "minimum": 0},
+            "LOW": {"type": "integer", "minimum": 0},
+            "INFO": {"type": "integer", "minimum": 0}
+          },
+          "additionalProperties": false
+        },
+        "max_severity": {
+          "oneOf": [
+            {"type": "string", "enum": ["CRITICAL", "HIGH", "MEDIUM", "LOW", "INFO"]},
+            {"type": "null"}
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "findings": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/finding"}
+    },
+    "errors": {
+      "type": "array",
+      "items": {"type": "string"}
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "finding": {
+      "type": "object",
+      "required": [
+        "check_id",
+        "title",
+        "severity",
+        "description",
+        "recommendation",
+        "category",
+        "references"
+      ],
+      "properties": {
+        "check_id": {"type": "string", "minLength": 1},
+        "title": {"type": "string", "minLength": 1},
+        "severity": {
+          "type": "string",
+          "enum": ["CRITICAL", "HIGH", "MEDIUM", "LOW", "INFO"]
+        },
+        "description": {"type": "string"},
+        "recommendation": {"type": "string"},
+        "category": {
+          "type": "string",
+          "pattern": "^A\\d{2}:\\d{4} - "
+        },
+        "location": {
+          "oneOf": [
+            {"type": "string"},
+            {"type": "null"}
+          ]
+        },
+        "evidence": {
+          "oneOf": [
+            {"type": "string"},
+            {"type": "null"}
+          ]
+        },
+        "references": {
+          "type": "array",
+          "items": {"type": "string", "format": "uri"}
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}
