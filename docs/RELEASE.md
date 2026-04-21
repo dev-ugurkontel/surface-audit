@@ -29,6 +29,25 @@ This follows GitHub's documented action-maintenance guidance: create
 semantic version tags such as `v1.1.3` and keep major tags such as `v1`
 current with the latest compatible release.
 
+## Why `1`, `1.0`, `1.0.2`, `v1`, and `v1.0.2` all exist
+
+The same release is named differently depending on where users consume
+it:
+
+| Surface | Example | Meaning |
+| ------- | ------- | ------- |
+| PyPI package | `1.0.2` | Exact Python package version installed by `pip` or `pipx`. |
+| GitHub Release tag | `v1.0.2` | Exact release commit and assets. The `v` prefix is a Git tag convention. |
+| GitHub Action tag | `v1` | Moving major tag for the latest compatible `1.x` action release. |
+| GHCR image tag | `1.0.2` | Exact container image for one release. |
+| GHCR image tag | `1.0` | Moving image tag for the latest compatible `1.0.x` patch. |
+| GHCR image tag | `1` | Moving image tag for the latest compatible `1.x` image. |
+| GHCR image tag | `latest` | Convenience image tag for the newest stable release. |
+
+So `v1` does not mean "the original `v1.0.0` forever." It means "the
+latest compatible release on the `1.x` line." After `v1.0.2`, it is
+normal for `v1` to point at the same commit as `v1.0.2`.
+
 ## Channels
 
 Each tagged release publishes four surfaces:

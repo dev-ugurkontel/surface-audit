@@ -2,7 +2,9 @@
 
 [![CI](https://github.com/dev-ugurkontel/surface-audit/actions/workflows/ci.yml/badge.svg)](https://github.com/dev-ugurkontel/surface-audit/actions/workflows/ci.yml)
 [![PyPI](https://img.shields.io/pypi/v/surface-audit.svg)](https://pypi.org/project/surface-audit/)
-[![Downloads](https://img.shields.io/pypi/dm/surface-audit.svg)](https://pypistats.org/packages/surface-audit)
+[![Downloads](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fpypistats.org%2Fapi%2Fpackages%2Fsurface-audit%2Frecent&query=%24.data.last_month&label=downloads&suffix=%2Fmo&color=brightgreen)](https://pypistats.org/packages/surface-audit)
+[![Release](https://img.shields.io/github/v/release/dev-ugurkontel/surface-audit?label=release&color=blue)](https://github.com/dev-ugurkontel/surface-audit/releases)
+[![Last commit](https://img.shields.io/github/last-commit/dev-ugurkontel/surface-audit?color=green)](https://github.com/dev-ugurkontel/surface-audit/commits/main)
 [![Python](https://img.shields.io/pypi/pyversions/surface-audit.svg)](https://pypi.org/project/surface-audit/)
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
 [![Checked with mypy](https://img.shields.io/badge/mypy-strict-blue)](https://mypy.readthedocs.io/)
