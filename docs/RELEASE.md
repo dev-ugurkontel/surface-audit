@@ -46,6 +46,22 @@ GitHub Packages may show the GHCR image after the first successful
 container release. PyPI packages do not appear in GitHub's Packages
 panel because PyPI is a separate registry.
 
+## Release flow
+
+```mermaid
+flowchart LR
+    pr["Pull request"] --> checks["Required checks"]
+    checks --> review["Maintainer review"]
+    review --> main["Squash merge to main"]
+    main --> tag["Annotated vX.Y.Z tag"]
+    tag --> release["Release workflow"]
+    release --> approval["pypi environment approval"]
+    approval --> pypi["Publish to PyPI"]
+    release --> ghrel["GitHub Release assets"]
+    release --> ghcr["GHCR image tags"]
+    release --> major["Move v1 action tag"]
+```
+
 ## Required checks and approvals
 
 Changes to `main` go through a pull request. The branch rules require:
