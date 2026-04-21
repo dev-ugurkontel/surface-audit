@@ -48,4 +48,5 @@ all: lint typecheck security test ## Run every quality gate
 clean: ## Remove caches and build artifacts
 	rm -rf build dist htmlcov .coverage coverage.xml \
 	       .mypy_cache .ruff_cache .pytest_cache \
-	       src/*.egg-info src/**/__pycache__ tests/**/__pycache__
+	       src/*.egg-info examples/plugin-template/.pytest_cache
+	find src tests examples -type d -name __pycache__ -prune -exec rm -rf {} +

@@ -7,6 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- `docs/RELEASE.md` now documents the full PyPI, GitHub Release, GHCR,
+  GitHub Action, environment-approval, and `v1` moving-tag process.
+- Markdown documentation tests now validate relative heading anchors in
+  addition to relative file links.
+
+### Changed
+
+- `make clean` now removes nested `__pycache__` directories and the
+  plugin-template pytest cache instead of relying on shallow shell
+  globs.
+
 ## [1.0.2] - 2026-04-21
 
 ### Added

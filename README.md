@@ -85,7 +85,8 @@ exact action release such as `@v1.0.2` when you want fully reproducible
 workflow inputs. Tagged releases also publish GitHub Release artifacts,
 CycloneDX SBOMs, and Sigstore signatures.
 
-More end-to-end patterns: [`docs/RECIPES.md`](docs/RECIPES.md).
+More end-to-end patterns: [`docs/RECIPES.md`](docs/RECIPES.md). Release
+and tag-management details: [`docs/RELEASE.md`](docs/RELEASE.md).
 
 ## Security Regression Diff
 
@@ -241,6 +242,7 @@ scorecard, and design patterns.
 - [`docs/INSTALL.md`](docs/INSTALL.md) — per-platform installation
 - [`docs/USAGE.md`](docs/USAGE.md) — CLI, library, and CI recipes
 - [`docs/RECIPES.md`](docs/RECIPES.md) — preview, SARIF, baseline, MCP, and action recipes
+- [`docs/RELEASE.md`](docs/RELEASE.md) — PyPI, GHCR, GitHub Release, and `v1` tag process
 - [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) — layering and extension points
 - [`docs/SCHEMA.md`](docs/SCHEMA.md) — JSON report contract
 - [`examples/plugin-template`](examples/plugin-template) — starter template for third-party checks
