@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- The project site now uses a simpler, text-first design and explains
+  release/tag surfaces directly on the landing page.
+- README badges now include a shorter live monthly downloads badge,
+  the latest GitHub Release, and last commit status.
 - `docs/RELEASE.md` now documents the full PyPI, GitHub Release, GHCR,
   GitHub Action, environment-approval, `v1` moving-tag process, and
   release-flow diagram.
@@ -17,6 +21,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- `docs/RELEASE.md` now explicitly distinguishes PyPI versions, GitHub
+  Release tags, moving GitHub Action tags, and GHCR image tags.
 - `make clean` now removes nested `__pycache__` directories and the
   plugin-template pytest cache instead of relying on shallow shell
   globs.

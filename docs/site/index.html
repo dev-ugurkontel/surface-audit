@@ -3,158 +3,138 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>surface-audit | Security smoke tests for preview and staging URLs</title>
+    <title>surface-audit - Security smoke tests for preview URLs</title>
     <meta
       name="description"
-      content="surface-audit gives teams a deterministic security smoke test for preview, staging, and pre-deploy URLs with CI-friendly output."
+      content="surface-audit runs deterministic security smoke tests against known preview, staging, and pre-deploy URLs."
     />
-    <meta name="theme-color" content="#07111f" />
-    <meta property="og:title" content="surface-audit | Security smoke tests for preview and staging URLs" />
+    <meta name="theme-color" content="#fbfaf7" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="surface-audit - Preview security smoke tests" />
     <meta
       property="og:description"
-      content="Deterministic security smoke tests for preview, staging, and pre-deploy URLs with CI-friendly reports, GitHub Action support, and bounded MCP integrations."
+      content="A bounded, CI-friendly security smoke test for preview and staging URLs."
     />
-    <meta property="og:type" content="website" />
     <meta property="og:url" content="https://dev-ugurkontel.github.io/surface-audit/" />
+    <meta property="og:site_name" content="surface-audit" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="surface-audit" />
+    <meta
+      name="twitter:description"
+      content="Deterministic security smoke tests for known preview, staging, and pre-deploy URLs."
+    />
     <link rel="canonical" href="https://dev-ugurkontel.github.io/surface-audit/" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700;800&family=IBM+Plex+Mono:wght@400;500&family=Space+Grotesk:wght@500;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="./assets/site.css" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "surface-audit",
+        "applicationCategory": "SecurityApplication",
+        "operatingSystem": "macOS, Linux, Windows",
+        "description": "Deterministic security smoke tests for known preview, staging, and pre-deploy URLs.",
+        "url": "https://github.com/dev-ugurkontel/surface-audit",
+        "license": "https://github.com/dev-ugurkontel/surface-audit/blob/main/LICENSE",
+        "downloadUrl": "https://pypi.org/project/surface-audit/"
+      }
+    </script>
   </head>
   <body>
-    <div class="site-shell">
-      <header class="site-header">
+    <div class="wrap">
+      <header class="topbar">
         <a class="brand" href="https://github.com/dev-ugurkontel/surface-audit">surface-audit</a>
-        <nav class="nav-links">
-          <a href="https://github.com/dev-ugurkontel/surface-audit">Repository</a>
-          <a href="https://github.com/dev-ugurkontel/surface-audit/blob/main/README.md">README</a>
+        <nav aria-label="Primary">
+          <a href="https://github.com/dev-ugurkontel/surface-audit">GitHub</a>
           <a href="https://pypi.org/project/surface-audit/">PyPI</a>
-          <a href="https://github.com/dev-ugurkontel/surface-audit/discussions">Discussions</a>
+          <a href="https://github.com/dev-ugurkontel/surface-audit/blob/main/docs/RECIPES.md">Recipes</a>
+          <a href="https://github.com/dev-ugurkontel/surface-audit/releases">Releases</a>
         </nav>
       </header>
 
       <main>
         <section class="hero">
-          <div class="hero-copy">
-            <span class="eyebrow">Security smoke tests for known URLs</span>
-            <h1>Give every preview deployment a fast, credible security gate.</h1>
-            <p class="hero-text">
-              <strong>surface-audit</strong> is built for teams that already know the target URL
-              and want deterministic security checks before promote-to-production time. It scans a
-              bounded surface, produces CI-friendly reports, and keeps the result explainable.
-            </p>
-            <div class="cta-row">
-              <a class="button button-primary" href="https://pypi.org/project/surface-audit/">Install from PyPI</a>
-              <a class="button" href="https://github.com/dev-ugurkontel/surface-audit/blob/main/docs/RECIPES.md">Open recipes</a>
-              <a class="button" href="https://github.com/dev-ugurkontel/surface-audit/actions/workflows/release.yml">Release flow</a>
-            </div>
-            <ul class="hero-list">
-              <li>Preview and staging scans without crawler sprawl</li>
-              <li>Baseline and diff workflows for regression-focused gating</li>
-              <li>SARIF, Markdown, HTML, and JSON output for CI and review surfaces</li>
-            </ul>
+          <p class="kicker">security smoke tests for known URLs</p>
+          <h1>Catch preview regressions before they ship.</h1>
+          <p class="lede">
+            <strong>surface-audit</strong> sends a small, bounded set of safe probes at a staging
+            or preview URL and turns the result into CI-friendly output: console, JSON, Markdown,
+            HTML, and SARIF.
+          </p>
+          <div class="actions">
+            <a class="button primary" href="https://pypi.org/project/surface-audit/">Install from PyPI</a>
+            <a class="button" href="https://github.com/dev-ugurkontel/surface-audit#github-action">Use the action</a>
           </div>
+          <div class="facts" aria-label="Project facts">
+            <div><strong>bounded</strong><span>known target URL</span></div>
+            <div><strong>regression</strong><span>baseline and diff</span></div>
+            <div><strong>CI-native</strong><span>SARIF and gates</span></div>
+            <div><strong>signed</strong><span>SBOM + Sigstore</span></div>
+          </div>
+        </section>
 
-          <div class="hero-visual">
-            <section class="scan-window">
-              <div class="window-bar">
-                <span></span>
-                <span></span>
-                <span></span>
-              </div>
-              <pre>$ surface-audit scan "$PREVIEW_URL" \
+        <hr />
+
+        <section class="chapter">
+          <p class="label">The problem</p>
+          <h2>Preview environments move faster than security review.</h2>
+          <div class="rule"></div>
+          <p>
+            A deployment can change headers, cookies, redirects, TLS behavior, CORS policy, or
+            exposed files without changing application logic. Those changes are easy to miss in
+            ordinary tests and too noisy for a full crawler on every pull request.
+          </p>
+          <p>
+            surface-audit stays intentionally narrow. It does not try to replace ZAP, Nuclei, or a
+            human security assessment. It answers one smaller question well:
+            <strong>did this known URL get less safe?</strong>
+          </p>
+          <div class="bench">
+            <div class="bench-item"><strong>known URL</strong><span>no crawler sprawl</span></div>
+            <div class="bench-item"><strong>safe probes</strong><span>no exploit confirmation</span></div>
+            <div class="bench-item"><strong>review output</strong><span>reports fit CI and PRs</span></div>
+          </div>
+        </section>
+
+        <hr />
+
+        <section class="chapter">
+          <p class="label">The workflow</p>
+          <h2>Run, compare, gate.</h2>
+          <div class="rule"></div>
+          <div class="steps">
+            <div class="step"><span>01</span><strong>Point at preview</strong><em>Use the URL your deploy system already produced.</em></div>
+            <div class="step"><span>02</span><strong>Scope explicitly</strong><em>Keep probes bounded to approved hosts.</em></div>
+            <div class="step"><span>03</span><strong>Compare to baseline</strong><em>Focus on findings that are new or worse.</em></div>
+            <div class="step"><span>04</span><strong>Fail on signal</strong><em>Gate only at the severity threshold you choose.</em></div>
+          </div>
+          <pre class="code-block">pipx install surface-audit
+
+surface-audit scan https://preview.example.com \
   --scope-host preview.example.com \
   --baseline reports/baseline.json \
   --fail-on HIGH \
   --output reports/preview.sarif \
-  --format sarif
-
-Summary: HIGH 1  MEDIUM 2  LOW 1
-
-HIGH     security-headers     Missing Content-Security-Policy
-MEDIUM   auth-cookies         Cookie "sessionid" missing SameSite
-MEDIUM   security-txt         Missing /.well-known/security.txt
-LOW      directory-listing    Auto-generated index page exposed</pre>
-            </section>
-
-            <div class="stat-grid">
-              <article class="stat-card">
-                <span class="stat-label">Primary fit</span>
-                <strong>Preview security gate</strong>
-                <p>Known URL, bounded probes, clear findings.</p>
-              </article>
-              <article class="stat-card">
-                <span class="stat-label">CI output</span>
-                <strong>SARIF, Markdown, JSON</strong>
-                <p>Works in code scanning, PR summaries, and pipelines.</p>
-              </article>
-              <article class="stat-card">
-                <span class="stat-label">Delivery</span>
-                <strong>PyPI, GHCR, GitHub Action</strong>
-                <p>Install the CLI, use the image, or drop in the action.</p>
-              </article>
-            </div>
-          </div>
+  --format sarif</pre>
         </section>
 
-        <section class="signal-strip">
-          <span>Trusted Publishing</span>
-          <span>Sigstore signing</span>
-          <span>CycloneDX SBOM</span>
-          <span>GitHub Action</span>
-          <span>GHCR image</span>
-          <span>MCP allow-list</span>
-        </section>
+        <hr />
 
-        <section class="section">
-          <div class="section-heading">
-            <span class="section-kicker">Delivery path</span>
-            <h2>How teams use it in a real release flow</h2>
-            <p>
-              The product is most useful when it sits between “preview environment is ready” and
-              “this build can be promoted.” The goal is not breadth. The goal is a dependable
-              regression signal.
-            </p>
-          </div>
-
-          <div class="flow-grid">
-            <article class="flow-card">
-              <span class="flow-step">01</span>
-              <h3>Point it at a known URL</h3>
-              <p>Use the staging or preview address you already trust as the deployment target.</p>
-            </article>
-            <article class="flow-card">
-              <span class="flow-step">02</span>
-              <h3>Run a bounded scan</h3>
-              <p>Scope hosts explicitly, keep concurrency polite, and emit machine-readable output.</p>
-            </article>
-            <article class="flow-card">
-              <span class="flow-step">03</span>
-              <h3>Compare against a baseline</h3>
-              <p>Use baseline suppression or explicit report diff to focus on regressions.</p>
-            </article>
-            <article class="flow-card">
-              <span class="flow-step">04</span>
-              <h3>Fail only when it matters</h3>
-              <p>Gate on new HIGH+ findings, upload SARIF, and keep the result visible in review.</p>
-            </article>
-          </div>
-        </section>
-
-        <section class="section two-up">
-          <article class="feature-panel">
-            <div class="panel-head">
-              <span class="section-kicker">Integrations</span>
-              <h2>Drop it into the stack you already have</h2>
-            </div>
-            <div class="integration-stack">
-              <div class="integration-card">
-                <h3>GitHub Action</h3>
-                <pre>- name: Run surface-audit
+        <section class="chapter">
+          <p class="label">GitHub Actions</p>
+          <h2>Use the moving major tag, or pin the exact release.</h2>
+          <div class="rule"></div>
+          <p>
+            <code>@v1</code> is the stable 1.x action line. It moves to the newest compatible
+            release, so users get patch and minor fixes. <code>@v1.0.2</code> is an exact release
+            tag for workflows that need maximum reproducibility.
+          </p>
+          <pre class="code-block">- name: Run surface-audit
   uses: dev-ugurkontel/surface-audit@v1
   with:
     target: ${{ steps.preview.outputs.url }}
@@ -162,165 +142,58 @@ LOW      directory-listing    Auto-generated index page exposed</pre>
     output: reports/surface-audit.sarif
     format: sarif
     fail-on: HIGH</pre>
-              </div>
-              <div class="integration-card">
-                <h3>MCP server</h3>
-                <pre>pip install "surface-audit[mcp]"
-surface-audit mcp-serve \
-  --allow-host staging.example.com \
-  --allow-host preview.example.com</pre>
-              </div>
-            </div>
-          </article>
-
-          <article class="feature-panel">
-            <div class="panel-head">
-              <span class="section-kicker">Trust surface</span>
-              <h2>Built to be easy to justify in CI</h2>
-            </div>
-            <div class="trust-list">
-              <div class="trust-row">
-                <strong>Release hygiene</strong>
-                <p>Tagged releases publish to PyPI, GitHub Releases, and GHCR.</p>
-              </div>
-              <div class="trust-row">
-                <strong>Supply-chain signals</strong>
-                <p>Trusted Publishing, Sigstore signatures, and CycloneDX SBOMs are in the flow.</p>
-              </div>
-              <div class="trust-row">
-                <strong>Safe automation story</strong>
-                <p>MCP access is constrained by explicit host allow-lists rather than open-ended browsing.</p>
-              </div>
-              <div class="trust-row">
-                <strong>Focused operating model</strong>
-                <p>The core stays narrow: smoke tests, not a sprawling crawler or exploit platform.</p>
-              </div>
-            </div>
-          </article>
         </section>
 
-        <section class="section scope-section">
-          <div class="section-heading">
-            <span class="section-kicker">Positioning</span>
-            <h2>Use it when the question is “did this deployment make things worse?”</h2>
+        <hr />
+
+        <section class="chapter">
+          <p class="label">Version surfaces</p>
+          <h2>There are four names because there are four distribution surfaces.</h2>
+          <div class="rule"></div>
+          <div class="matrix" role="list">
+            <div role="listitem"><strong>PyPI</strong><span><code>1.0.2</code> is the Python package version.</span></div>
+            <div role="listitem"><strong>GitHub Release</strong><span><code>v1.0.2</code> marks the exact release commit and assets.</span></div>
+            <div role="listitem"><strong>GitHub Action</strong><span><code>v1</code> moves to the latest compatible 1.x action release.</span></div>
+            <div role="listitem"><strong>GHCR</strong><span><code>1</code>, <code>1.0</code>, <code>1.0.2</code>, and <code>latest</code> are container image tags.</span></div>
           </div>
-          <div class="scope-grid">
-            <article class="scope-card scope-good">
-              <h3>Great fit</h3>
-              <ul>
-                <li>Preview, staging, or pre-production URLs</li>
-                <li>Teams that want a deterministic gate in CI</li>
-                <li>Security regression tracking with baseline or diff</li>
-                <li>Output that feeds code scanning, dashboards, or PR comments</li>
-              </ul>
-            </article>
-            <article class="scope-card scope-bad">
-              <h3>Use other tools when</h3>
-              <ul>
-                <li>You need crawling or spidering</li>
-                <li>You need authenticated browser or session flows</li>
-                <li>You need exploit confirmation</li>
-                <li>You want a giant template corpus over a narrow, stable story</li>
-              </ul>
-            </article>
+          <p>
+            Short version: use <code>surface-audit==1.0.2</code> in Python, <code>@v1</code> in
+            GitHub Actions unless you need an exact pin, and <code>:1.0.2</code> for a fully pinned
+            container.
+          </p>
+        </section>
+
+        <hr />
+
+        <section class="chapter">
+          <p class="label">Outputs</p>
+          <h2>Inspect the artifact before wiring it into CI.</h2>
+          <div class="rule"></div>
+          <div class="links">
+            <a href="./samples/preview-report.console.txt"><strong>Console sample</strong><span>Human-readable terminal output.</span></a>
+            <a href="./samples/preview-report.html"><strong>HTML sample</strong><span>Shareable single-file report.</span></a>
+            <a href="./samples/preview-report.sarif.json"><strong>SARIF sample</strong><span>Code scanning compatible JSON.</span></a>
           </div>
         </section>
 
-        <section class="section">
-          <div class="section-heading">
-            <span class="section-kicker">Artifact previews</span>
-            <h2>Inspect representative outputs before you wire the tool into CI</h2>
-            <p>
-              These samples show the three report surfaces most teams evaluate first: terminal
-              output for humans, HTML for quick sharing, and SARIF for code scanning integrations.
-            </p>
-          </div>
-          <div class="artifact-grid">
-            <article class="artifact-card">
-              <div class="artifact-head">
-                <span class="section-kicker">Console</span>
-                <a class="artifact-link" href="./samples/preview-report.console.txt">Open sample</a>
-              </div>
-              <pre>Target: https://preview.example.com/
-Summary: HIGH 1  MEDIUM 2  LOW 1
+        <hr />
 
-HIGH     security-headers     Missing Content-Security-Policy header
-MEDIUM   auth-cookies         Cookie 'sessionid' missing SameSite
-MEDIUM   security-txt         Missing /.well-known/security.txt</pre>
-            </article>
-            <article class="artifact-card">
-              <div class="artifact-head">
-                <span class="section-kicker">HTML</span>
-                <a class="artifact-link" href="./samples/preview-report.html">Open sample</a>
-              </div>
-              <pre>&lt;title&gt;surface-audit Report&lt;/title&gt;
-Target: https://preview.example.com/
-Duration: 3.00s
-Findings: 4
-
-HIGH    security-headers
-MEDIUM  auth-cookies
-MEDIUM  security-txt
-LOW     directory-listing</pre>
-            </article>
-            <article class="artifact-card">
-              <div class="artifact-head">
-                <span class="section-kicker">SARIF</span>
-                <a class="artifact-link" href="./samples/preview-report.sarif.json">Open sample</a>
-              </div>
-              <pre>{
-  "version": "2.1.0",
-  "runs": [
-    {
-      "tool": { "driver": { "name": "surface-audit" } },
-      "results": [
-        { "ruleId": "surface-audit/security-headers" },
-        { "ruleId": "surface-audit/auth-cookies" }
-      ]
-    }
-  ]
-}</pre>
-            </article>
-          </div>
-        </section>
-
-        <section class="section">
-          <div class="section-heading">
-            <span class="section-kicker">Docs and support</span>
-            <h2>Start with the README, then go deeper only when you need to</h2>
-          </div>
-          <div class="link-grid">
-            <a class="doc-link" href="https://github.com/dev-ugurkontel/surface-audit/blob/main/README.md">
-              <strong>README</strong>
-              <span>Core positioning, quick start, GitHub Action, and output overview.</span>
-            </a>
-            <a class="doc-link" href="https://github.com/dev-ugurkontel/surface-audit/blob/main/docs/RECIPES.md">
-              <strong>Recipes</strong>
-              <span>Preview gates, baseline mode, diff workflows, MCP, and container usage.</span>
-            </a>
-            <a class="doc-link" href="https://github.com/dev-ugurkontel/surface-audit/blob/main/docs/RELEASE.md">
-              <strong>Release process</strong>
-              <span>PyPI, GHCR, GitHub Releases, and the moving v1 action tag.</span>
-            </a>
-            <a class="doc-link" href="https://github.com/dev-ugurkontel/surface-audit/blob/main/docs/ARCHITECTURE.md">
-              <strong>Architecture</strong>
-              <span>Layering, extension points, and the boundaries of the core project.</span>
-            </a>
-            <a class="doc-link" href="https://github.com/dev-ugurkontel/surface-audit/tree/main/examples/plugin-template">
-              <strong>Plugin template</strong>
-              <span>Starter package for a third-party check with entry points and tests.</span>
-            </a>
-            <a class="doc-link" href="https://github.com/dev-ugurkontel/surface-audit/blob/main/SUPPORT.md">
-              <strong>Support</strong>
-              <span>When to open an issue, when to use Discussions, and where security reports go.</span>
-            </a>
+        <section class="chapter">
+          <p class="label">Docs</p>
+          <h2>Start small, then go deeper only when needed.</h2>
+          <div class="rule"></div>
+          <div class="links">
+            <a href="https://github.com/dev-ugurkontel/surface-audit/blob/main/README.md"><strong>README</strong><span>Positioning, quick start, and common paths.</span></a>
+            <a href="https://github.com/dev-ugurkontel/surface-audit/blob/main/docs/RECIPES.md"><strong>Recipes</strong><span>Preview gates, baselines, SARIF, MCP, and Docker.</span></a>
+            <a href="https://github.com/dev-ugurkontel/surface-audit/blob/main/docs/RELEASE.md"><strong>Release process</strong><span>PyPI, GHCR, GitHub Releases, and action tags.</span></a>
+            <a href="https://github.com/dev-ugurkontel/surface-audit/blob/main/SUPPORT.md"><strong>Support</strong><span>Where to ask, propose, or report privately.</span></a>
           </div>
         </section>
       </main>
 
-      <footer class="site-footer">
-        <span>surface-audit is open source under Apache 2.0.</span>
-        <span>Published on PyPI, GitHub Releases, and GHCR.</span>
+      <footer>
+        <span>Apache 2.0.</span>
+        <span>Published on PyPI, GitHub Releases, GHCR, and GitHub Actions.</span>
       </footer>
     </div>
   </body>
