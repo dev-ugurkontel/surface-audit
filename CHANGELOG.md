@@ -10,7 +10,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - `docs/RELEASE.md` now documents the full PyPI, GitHub Release, GHCR,
-  GitHub Action, environment-approval, and `v1` moving-tag process.
+  GitHub Action, environment-approval, `v1` moving-tag process, and
+  release-flow diagram.
 - Markdown documentation tests now validate relative heading anchors in
   addition to relative file links.
 
