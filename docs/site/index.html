@@ -8,7 +8,7 @@
       name="description"
       content="surface-audit runs deterministic security smoke tests against known preview, staging, and pre-deploy URLs."
     />
-    <meta name="theme-color" content="#fbfaf7" />
+    <meta name="theme-color" content="#f8fafc" />
     <meta property="og:type" content="website" />
     <meta property="og:title" content="surface-audit - Preview security smoke tests" />
     <meta
@@ -27,7 +27,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap"
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&amp;family=IBM+Plex+Sans:wght@300;400;500;600;700&amp;display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="./assets/site.css" />
@@ -62,9 +62,9 @@
           <p class="kicker">security smoke tests for known URLs</p>
           <h1>Catch preview regressions before they ship.</h1>
           <p class="lede">
-            <strong>surface-audit</strong> sends a small, bounded set of safe probes at a staging
-            or preview URL and turns the result into CI-friendly output: console, JSON, Markdown,
-            HTML, and SARIF.
+            <strong>surface-audit</strong> sends a small, bounded set of safe probes at staging
+            and preview URLs, then turns the result into CI-friendly output: console, JSON,
+            Markdown, HTML, and SARIF.
           </p>
           <div class="actions">
             <a class="button primary" href="https://pypi.org/project/surface-audit/">Install from PyPI</a>
@@ -74,7 +74,7 @@
             <div><strong>bounded</strong><span>known target URL</span></div>
             <div><strong>regression</strong><span>baseline and diff</span></div>
             <div><strong>CI-native</strong><span>SARIF and gates</span></div>
-            <div><strong>signed</strong><span>SBOM + Sigstore</span></div>
+            <div><strong>published</strong><span>PyPI, GHCR, Action</span></div>
           </div>
         </section>
 
@@ -90,15 +90,10 @@
             ordinary tests and too noisy for a full crawler on every pull request.
           </p>
           <p>
-            surface-audit stays intentionally narrow. It does not try to replace ZAP, Nuclei, or a
-            human security assessment. It answers one smaller question well:
+            surface-audit keeps the workflow narrow. It is not a full DAST platform and not a
+            replacement for human security review. It answers one direct question:
             <strong>did this known URL get less safe?</strong>
           </p>
-          <div class="bench">
-            <div class="bench-item"><strong>known URL</strong><span>no crawler sprawl</span></div>
-            <div class="bench-item"><strong>safe probes</strong><span>no exploit confirmation</span></div>
-            <div class="bench-item"><strong>review output</strong><span>reports fit CI and PRs</span></div>
-          </div>
         </section>
 
         <hr />
@@ -156,11 +151,24 @@ surface-audit scan https://preview.example.com \
             <div role="listitem"><strong>GitHub Action</strong><span><code>v1</code> moves to the latest compatible 1.x action release.</span></div>
             <div role="listitem"><strong>GHCR</strong><span><code>1</code>, <code>1.0</code>, <code>1.0.2</code>, and <code>latest</code> are container image tags.</span></div>
           </div>
-          <p>
-            Short version: use <code>surface-audit==1.0.2</code> in Python, <code>@v1</code> in
-            GitHub Actions unless you need an exact pin, and <code>:1.0.2</code> for a fully pinned
-            container.
-          </p>
+        </section>
+
+        <hr />
+
+        <section class="chapter">
+          <p class="label">Sample report</p>
+          <h2>Readable locally, structured in automation.</h2>
+          <div class="rule"></div>
+          <div class="terminal" aria-label="Sample surface-audit console output">
+            <div class="terminal-bar"><span></span><span></span><span></span></div>
+            <pre>Target: https://preview.example.com/
+Summary: HIGH 1  MEDIUM 2  LOW 1
+
+HIGH     security-headers     Missing Content-Security-Policy header
+MEDIUM   auth-cookies         Cookie 'sessionid' missing SameSite
+MEDIUM   security-txt         Missing /.well-known/security.txt
+LOW      directory-listing    Auto-generated index page exposed</pre>
+          </div>
         </section>
 
         <hr />
